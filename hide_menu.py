@@ -9,6 +9,7 @@ from tkinter import messagebox        #引入弹窗库
 
 screen_x = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)   #获得屏幕分辨率X轴
 screen_y = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)   #获得屏幕分辨率Y轴
+cursor_width = 127
 root = tkinter.Tk()
 root.title("您可以在屏幕上点击您想要pygame窗口出现的位置!")
 # root.overrideredirect(True)
@@ -33,24 +34,27 @@ canvas.configure(cursor="crosshair")
 # 显示文字
 # canvas.create_text((700, 100), text="您可以在屏幕上点击您想要pygame窗口出现的位置!", font=("微软雅黑", 18))
 # canvas.place(x=0, y=-100)
+
+
 canvas.pack()
 x, y = 0, 0
 
 def locate(event):
     print(event.x)
     print(event.y)
-    pos_gif = tkinter.PhotoImage(file=r"res\pos.gif")
-    canvas.create_image(event.x, event.y, image=pos_gif)
+    pos_gif = tkinter.PhotoImage(file=r"res\cursor.png")
+    offset = cursor_width / 2
+    canvas.create_image(event.x+offset, event.y+offset, image=pos_gif)
     # show_click_pos(frame, event.x, event.y)
     res = messagebox.askokcancel(title='定位确认',message='您是否确认定位在这里？')
-    if res == True:
-        #Todo: 这里应该有一个在刚才点击位置
-        pass
-        global root
-        if root:
-            root.destroy()
-            root = None
-    print(res)  
+    # if res == True:
+    #     #Todo: 这里应该有一个在刚才点击位置
+    #     pass
+    #     global root
+    #     if root:
+    #         root.destroy()
+    #         root = None
+    # print(res)  
 
 root.bind("<Button-1>",locate)
 def move(event):
